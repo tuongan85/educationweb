@@ -1,0 +1,33 @@
+id,title,category__title
+1,Yoga basic,Health & Fitness
+2,Design for beginner,Design
+3,Online Advertising,Marketing
+4,Health care,Health & Fitness
+5,Introduction to Graphic Design,Design
+6,Introduction to Web Development,IT & Software
+7,Digital Marketing Fundamentals,Marketing
+9,Music Production for Beginners,Music
+10,Fitness Training for Beginners,Health & Fitness
+11,Filmmaking 101,Filming
+12,Entrepreneurship Essentials,Business
+13,Full-Stack Developer Bootcamp,Development
+14,Mastering Microsoft Office,Office Productivity
+16,UI/UX Design Fundamentals,Design
+17,Introduction to Python Programming,IT & Software
+18,Social Media Marketing Mastery,Marketing
+19,Personal Finance for Beginners,Finace & Accounting
+20,Beginner Guitar Lessons,Music
+21,Yoga for Beginners,Health & Fitness
+22,Video Editing with Adobe Premiere Pro,Filming
+23,Project Management Essentials,Business
+24,Building APIs with Django,Development
+25,Google Workspace for Professionals,Office Productivity
+28,Adobe Photoshop Essentials,Design
+29,Cloud Computing with AWS,Development
+30,Content Marketing Strategy,Marketing
+31,Investment Strategies for Beginners,Finace & Accounting
+33,Flutter for beginner,IT & Software
+35,Ruby,IT & Software
+36,Test web,IT & Software
+38,"HTML, CSS for beginner",Music
+40,Independent,Personal Development
