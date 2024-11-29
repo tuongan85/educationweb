@@ -1,0 +1,87 @@
+name: CI/CD Pipeline for Education
+
+on:
+  push:
+    branches:
+      - main  # Kích hoạt pipeline khi có commit lên nhánh chính
+  pull_request:
+    branches:
+      - main
+
+jobs:                
+  build-backend:	#Tên của công việc này, dùng để xây dựng và kiểm thử backend.
+    runs-on: ubuntu-latest  # Hệ điều hành mà công việc sẽ chạy trên đó. Ở đây dùng ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        working-directory: ./EducationBackend/EduWeb
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        working-directory: ./EducationBackend/EduWeb
+        run: |
+          python manage.py test
+
+  build-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        working-directory: ./EducationFrontend/eduwebapp
+        run: npm install
+
+      - name: Run tests
+        working-directory: ./EducationFrontend/eduwebapp
+        run: npm test
+
+  docker-build-and-push:
+    needs: [build-backend, build-frontend]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker images
+        run: |
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml push
+
+  deploy:
+    needs: docker-build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH to Deploy Server
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            docker-compose -f /path/to/remote/docker-compose.yml pull           ====> host, username, và key là các biến môi trường chứa thông tin đăng nhập 															server (dùng secrets để bảo mật).
+										script: Chạy các lệnh để cập nhật Docker images và khởi động lại container.
+            docker-compose -f /path/to/remote/docker-compose.yml up -d
