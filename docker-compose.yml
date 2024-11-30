@@ -15,7 +15,7 @@ services:
 
   frontend:
     build:
-      context: ./EducationFrontend/eduwebapp  # Đường dẫn tới thư mục frontend
+      context: ./EducationFrontend-master/eduwebapp  # Đường dẫn tới thư mục frontend
     ports:
       - "3000:3000"  # Chuyển tiếp cổng cho frontend
     volumes:
