@@ -1,0 +1,46 @@
+services:
+  backend:
+    build:
+      context: ./EducationBackend/EduWeb  # Đường dẫn tới thư mục backend
+    ports:
+      - "8000:8000"  # Chuyển tiếp cổng cho backend (host:container)
+    volumes:
+      - ./EducationBackend/EduWeb:/app  # Đồng bộ mã nguồn backend với container
+    environment:
+      - DEBUG=1  # Biến môi trường (tùy chọn) cho môi trường phát triển
+    depends_on:
+      - db  # Đảm bảo backend khởi động sau db
+    networks:
+      - education-network  # Kết nối vào mạng chung
+
+  frontend:
+    build:
+      context: ./EducationFrontend/eduwebapp  # Đường dẫn tới thư mục frontend
+    ports:
+      - "3000:3000"  # Chuyển tiếp cổng cho frontend
+    volumes:
+      - ./EducationFrontend:/app  # Đồng bộ mã nguồn frontend với container
+    networks:
+      - education-network  # Kết nối vào mạng chung
+
+  db:
+    image: mysql:5.7  # Sử dụng MySQL cho cơ sở dữ liệu backend
+    environment:
+      MYSQL_DATABASE: "eduwebdb"  # Tên cơ sở dữ liệu
+      MYSQL_USER: "an"  # Tên người dùng
+      MYSQL_PASSWORD: "12345678"  # Mật khẩu người dùng
+      MYSQL_ROOT_PASSWORD: "12345678"  # Mật khẩu root cho MySQL
+    volumes:
+      - db_data:/var/lib/mysql  # Lưu trữ dữ liệu MySQL
+    ports:
+      - "3306:3306"  # Cổng cho MySQL (tùy chọn)
+    networks:
+      - education-network
+
+# Định nghĩa volume cho cơ sở dữ liệu
+volumes:
+  db_data:
+
+# Định nghĩa mạng chung để kết nối các dịch vụ
+networks:
+  education-network:
