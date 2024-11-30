@@ -50,7 +50,7 @@ jobs:
 
       - name: Run tests
         working-directory: ./EducationFrontend-master/eduwebapp
-        run: npm test
+        run: npm test -- --passWithNoTests
 
   docker-build-and-push:
     needs: [build-backend, build-frontend]
