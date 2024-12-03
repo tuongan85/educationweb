@@ -82,7 +82,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            set -e
             docker-compose -f /path/to/remote/docker-compose.yml pull
             docker-compose -f /path/to/remote/docker-compose.yml up -d
-            docker image prune -f
